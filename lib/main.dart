@@ -1,29 +1,43 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' as io;
 
 import 'package:dgraph/api.dart';
 import 'package:dgraph/dgraph.dart';
 import 'package:dgraph/protos/api/api.pb.dart' as api;
 import 'package:faker/faker.dart';
 import 'package:grpc/grpc.dart';
+import 'package:hive/hive.dart';
 import 'package:progressbar2/progressbar2.dart';
+import 'package:userservice/model/file.dart';
 
 import 'model/user.dart';
 import 'storage/user.dart';
 
 void main(List<String> arguments) async {
+  final start = DateTime.now();
+  Hive.init('./hive');
+  Hive.registerAdapter(UserLevelAdapter());
+  Hive.registerAdapter(FileTypeAdapter());
+  Hive.registerAdapter(FileAdapter());
+  Hive.registerAdapter(UserAdapter());
+  final userS = await Hive.openBox<User>('user');
+  final fileS = await Hive.openBox<File>('file');
   final totalStr = arguments.first;
   final total = int.parse(totalStr);
-  DgraphRpcClient rpcClient =
-      DgraphRpcClient("localhost", 9080, const ChannelCredentials.insecure());
-  Dgraph dgraphClient = dgraph.NewDgraphClient(api.DgraphApi(rpcClient));
-  final userStorage = UserStorageDrgaph(client: dgraphClient);
-  List<Future<User>> fusers = [];
   final progressBar = ProgressBar(
     formatter: (current, total, progress, elapsed) =>
         '[${ProgressBar.formatterBarToken}] ${(progress * 100).floor()}% ${elapsed.inSeconds}s',
     total: total,
   );
+  // DgraphRpcClient rpcClient =
+  //     DgraphRpcClient("localhost", 9080, const ChannelCredentials.insecure());
+  // Dgraph dgraphClient = dgraph.NewDgraphClient(api.DgraphApi(rpcClient));
+  // final userStorage = UserStorageDrgaph(client: dgraphClient);
+  final file = File(id: 0, name: 'file.txt', type: FileType.file);
+  fileS.putAt(file.id, file);
+  final HiveList<File> files = HiveList(fileS, objects: [file]);
+
+  List<Future<void>> fids = [];
   progressBar.render();
   for (var i = 0; i < total; i++) {
     final name = faker.person.name();
@@ -46,20 +60,27 @@ void main(List<String> arguments) async {
         level = UserLevel.anon;
     }
     final email = faker.internet.email();
-    final user = userStorage.add(
-        User(id: 'id', locale: locale, level: level, name: name, email: email));
-    fusers.add(user);
+    List<File> ufiles = const [];
+    if (i % 10 == 0) {
+      ufiles = files;
+    }
+    final user =
+        User(id: i, locale: locale, level: level, name: name, email: email,files: ufiles);
+    fids.add(userS.put(i, user));
     ++progressBar.value;
     progressBar.render();
   }
   progressBar.value = 0;
   progressBar.render();
-  final users = await Future.wait(fusers, cleanUp: (User user) {
+  await Future.wait<void>(fids, cleanUp: (void v) {
     ++progressBar.value;
     progressBar.render();
   });
-  final file = File('users.json');
+  await userS.compact();
+  final jfile = io.File('users.json');
+  final users = userS.values.toList();
   final json = jsonEncode(users);
-  await file.writeAsString(json, flush: true);
-  // print('Hello world!');
+  await jfile.writeAsString(json, flush: true);
+  await userS.close();
+  print('End: ${DateTime.now().difference(start)}');
 }

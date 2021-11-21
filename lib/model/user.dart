@@ -1,21 +1,30 @@
 import 'dart:convert';
 
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:userservice/graphql/user_add.graphql.dart' as g;
 import 'file.dart';
 
+part 'user.g.dart';
+@HiveType(typeId: 0)
 enum UserLevel {
   @JsonValue('Anon')
+  @HiveField(0)
   anon,
   @JsonValue('Student')
+  @HiveField(1)
   student,
   @JsonValue('Teacher')
+  @HiveField(2)
   teacher,
   @JsonValue('Elder')
+  @HiveField(3)
   elder,
   @JsonValue('Director')
+  @HiveField(4)
   director,
   @JsonValue('Moderator')
+  @HiveField(5)
   moderator
 }
 g.UserLevel userLevelfrom(UserLevel i) {
@@ -56,13 +65,22 @@ UserLevel userLevelto(g.UserLevel i) {
   }
 }
 
-class User {
-  String id;
+@HiveType(typeId: 1)
+class User extends HiveObject{
+  @HiveField(0)
+  int id;
+  @HiveField(1)
   String? name;
+  @HiveField(2)
   String? email;
+  @HiveField(3)
   UserLevel level;
+  @HiveField(4)
   String locale;
+  @HiveField(5)
   File? avatar;
+  @HiveField(6)
+  List<File> files;
   User({
     required this.id,
     this.name,
@@ -70,6 +88,7 @@ class User {
     required this.locale,
     this.avatar,
     required this.level,
+    this.files = const [],
   });
 
   Map<String, dynamic> toMap() {

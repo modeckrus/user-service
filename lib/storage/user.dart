@@ -35,7 +35,7 @@ class UserStorageDrgaph extends UserStorageI {
       email: i.email,
       level: userLevelfrom(i.level),
       locale: i.locale,
-      file: i.avatar?.id,
+      avatar: i.avatar?.toGraph(),
     ));
     final client = ArtemisClient(connection);
     final result = await client.execute(mutation);
@@ -47,10 +47,10 @@ class UserStorageDrgaph extends UserStorageI {
       i.email = user.email;
       if (user.avatar != null) {
         final a = user.avatar!;
-        final avatar = File(id: a.id, name: a.name, type: fileTypefrom(a.type));
+        final avatar = File(id: i.id, name: a.name, type: fileTypefrom(a.type));
         i.avatar = avatar;
       }
-      i.id = user.id;
+      i.id = int.tryParse(user.id, radix: 16)??0;
       i.name = user.name;
       i.level = userLevelto(user.level);
       i.locale = user.locale;

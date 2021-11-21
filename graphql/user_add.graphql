@@ -1,10 +1,10 @@
-mutation AddUser($name: String, $email:String, $level: UserLevel!, $locale: String!, $file: ID){
+mutation AddUser($name: String, $email:String, $level: UserLevel!, $locale: String!, $avatar: FileRef){
   addUser(input: {
     name: $name,
     email: $email,
     level: $level,
     locale: $locale,
-     avatar: {id: $file}
+    avatar: $avatar
   }){
     user{
       id

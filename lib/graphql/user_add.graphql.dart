@@ -91,6 +91,203 @@ class AddUser$Mutation extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$AddUser$MutationToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
+class FileRef extends JsonSerializable with EquatableMixin {
+  FileRef({this.id, this.user, this.name, this.type});
+
+  factory FileRef.fromJson(Map<String, dynamic> json) =>
+      _$FileRefFromJson(json);
+
+  String? id;
+
+  UserRef? user;
+
+  String? name;
+
+  @JsonKey(unknownEnumValue: FileType.artemisUnknown)
+  FileType? type;
+
+  @override
+  List<Object?> get props => [id, user, name, type];
+  @override
+  Map<String, dynamic> toJson() => _$FileRefToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UserRef extends JsonSerializable with EquatableMixin {
+  UserRef(
+      {this.id,
+      this.name,
+      this.email,
+      this.level,
+      this.locale,
+      this.avatar,
+      this.files,
+      this.classes});
+
+  factory UserRef.fromJson(Map<String, dynamic> json) =>
+      _$UserRefFromJson(json);
+
+  String? id;
+
+  String? name;
+
+  String? email;
+
+  @JsonKey(unknownEnumValue: UserLevel.artemisUnknown)
+  UserLevel? level;
+
+  String? locale;
+
+  FileRef? avatar;
+
+  List<FileRef>? files;
+
+  List<ClassRef>? classes;
+
+  @override
+  List<Object?> get props =>
+      [id, name, email, level, locale, avatar, files, classes];
+  @override
+  Map<String, dynamic> toJson() => _$UserRefToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ClassRef extends JsonSerializable with EquatableMixin {
+  ClassRef(
+      {this.id,
+      this.teacher,
+      this.school,
+      this.name,
+      this.image,
+      this.students,
+      this.objects});
+
+  factory ClassRef.fromJson(Map<String, dynamic> json) =>
+      _$ClassRefFromJson(json);
+
+  String? id;
+
+  UserRef? teacher;
+
+  SchoolRef? school;
+
+  TrsRef? name;
+
+  FileRef? image;
+
+  List<UserRef?>? students;
+
+  List<SchoolObjectRef>? objects;
+
+  @override
+  List<Object?> get props =>
+      [id, teacher, school, name, image, students, objects];
+  @override
+  Map<String, dynamic> toJson() => _$ClassRefToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SchoolRef extends JsonSerializable with EquatableMixin {
+  SchoolRef(
+      {this.id,
+      this.name,
+      this.locale,
+      this.description,
+      this.type,
+      this.banner,
+      this.avatar,
+      this.classes});
+
+  factory SchoolRef.fromJson(Map<String, dynamic> json) =>
+      _$SchoolRefFromJson(json);
+
+  String? id;
+
+  String? name;
+
+  String? locale;
+
+  String? description;
+
+  @JsonKey(unknownEnumValue: SchoolType.artemisUnknown)
+  SchoolType? type;
+
+  FileRef? banner;
+
+  FileRef? avatar;
+
+  List<ClassRef>? classes;
+
+  @override
+  List<Object?> get props =>
+      [id, name, locale, description, type, banner, avatar, classes];
+  @override
+  Map<String, dynamic> toJson() => _$SchoolRefToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class TrsRef extends JsonSerializable with EquatableMixin {
+  TrsRef({this.trs});
+
+  factory TrsRef.fromJson(Map<String, dynamic> json) => _$TrsRefFromJson(json);
+
+  List<TrRef>? trs;
+
+  @override
+  List<Object?> get props => [trs];
+  @override
+  Map<String, dynamic> toJson() => _$TrsRefToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class TrRef extends JsonSerializable with EquatableMixin {
+  TrRef({this.l, this.s});
+
+  factory TrRef.fromJson(Map<String, dynamic> json) => _$TrRefFromJson(json);
+
+  String? l;
+
+  String? s;
+
+  @override
+  List<Object?> get props => [l, s];
+  @override
+  Map<String, dynamic> toJson() => _$TrRefToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SchoolObjectRef extends JsonSerializable with EquatableMixin {
+  SchoolObjectRef(
+      {this.id,
+      this.user,
+      this.teacher,
+      this.name,
+      this.description,
+      this.kw$class});
+
+  factory SchoolObjectRef.fromJson(Map<String, dynamic> json) =>
+      _$SchoolObjectRefFromJson(json);
+
+  String? id;
+
+  UserRef? user;
+
+  UserRef? teacher;
+
+  TrsRef? name;
+
+  TrsRef? description;
+
+  @JsonKey(name: 'class')
+  ClassRef? kw$class;
+
+  @override
+  List<Object?> get props => [id, user, teacher, name, description, kw$class];
+  @override
+  Map<String, dynamic> toJson() => _$SchoolObjectRefToJson(this);
+}
+
 enum UserLevel {
   @JsonValue('Anon')
   anon,
@@ -115,6 +312,20 @@ enum FileType {
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
+enum SchoolType {
+  @JsonValue('school')
+  school,
+  @JsonValue('userservice')
+  userservice,
+  @JsonValue('college')
+  college,
+  @JsonValue('course')
+  course,
+  @JsonValue('other')
+  other,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
 
 @JsonSerializable(explicitToJson: true)
 class AddUserArguments extends JsonSerializable with EquatableMixin {
@@ -123,7 +334,7 @@ class AddUserArguments extends JsonSerializable with EquatableMixin {
       this.email,
       required this.level,
       required this.locale,
-      this.file});
+      this.avatar});
 
   @override
   factory AddUserArguments.fromJson(Map<String, dynamic> json) =>
@@ -138,10 +349,10 @@ class AddUserArguments extends JsonSerializable with EquatableMixin {
 
   late String locale;
 
-  final String? file;
+  final FileRef? avatar;
 
   @override
-  List<Object?> get props => [name, email, level, locale, file];
+  List<Object?> get props => [name, email, level, locale, avatar];
   @override
   Map<String, dynamic> toJson() => _$AddUserArgumentsToJson(this);
 }
@@ -176,8 +387,9 @@ final ADD_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
             defaultValue: DefaultValueNode(value: null),
             directives: []),
         VariableDefinitionNode(
-            variable: VariableNode(name: NameNode(value: 'file')),
-            type: NamedTypeNode(name: NameNode(value: 'ID'), isNonNull: false),
+            variable: VariableNode(name: NameNode(value: 'avatar')),
+            type: NamedTypeNode(
+                name: NameNode(value: 'FileRef'), isNonNull: false),
             defaultValue: DefaultValueNode(value: null),
             directives: [])
       ],
@@ -204,12 +416,7 @@ final ADD_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
                         value: VariableNode(name: NameNode(value: 'locale'))),
                     ObjectFieldNode(
                         name: NameNode(value: 'avatar'),
-                        value: ObjectValueNode(fields: [
-                          ObjectFieldNode(
-                              name: NameNode(value: 'id'),
-                              value:
-                                  VariableNode(name: NameNode(value: 'file')))
-                        ]))
+                        value: VariableNode(name: NameNode(value: 'avatar')))
                   ]))
             ],
             directives: [],
