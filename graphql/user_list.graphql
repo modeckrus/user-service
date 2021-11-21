@@ -1,0 +1,1 @@
+query ListUser($search:String!,$skip:Int!,$limit:Int!){queryUser(filter:{name:{anyofterms:$search}}first:$limit offset:$skip){id name email level locale avatar{id name type}}}

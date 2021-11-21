@@ -1,0 +1,40 @@
+syntax = "proto3";
+package api;
+
+message Auth{
+    string token = 1;
+    string locale = 2;
+}
+message IdI{
+    Auth auth = 1;
+    string id = 2;
+}
+message StatusR{
+    bool ok = 1;
+}
+message SearchI{
+    Auth auth = 1;
+    string search = 2;
+    int64 skip = 3;
+    int64 limit = 4;
+}
+message SearchIdI{
+    Auth auth = 1;
+    string id = 2;
+    string search = 3;
+    int64 skip = 4;
+    int64 limit = 5;
+}
+message Tr{
+    string l = 1;
+    string s = 2;
+}
+message Trs{
+    repeated Tr trs = 1;
+}
+
+message GetByTimeI{
+    Auth auth = 1;
+    int64 start = 2;
+    int64 end = 3;
+}

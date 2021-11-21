@@ -1,0 +1,28 @@
+
+mutation UpdateUser($name: String, $email:String, $level: UserLevel!, $locale: String!, $id: ID!, $file: ID){
+  updateUser(
+    input: {
+      filter: {
+        id: [$id]
+      }
+      set:{
+    name: $name,
+    email: $email,
+    level: $level,
+    locale: $locale,
+    avatar: {id: $file}
+      }}){
+    user{
+      id
+      name
+      email
+      level
+      locale
+      avatar{
+        id
+        name
+        type
+      }
+    }
+  }
+}

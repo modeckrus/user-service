@@ -1,0 +1,69 @@
+syntax = "proto3";
+package api;
+import "common.proto";
+import "file.proto";
+
+enum UserLevel{
+    Anon = 0;
+    Student = 1;
+    Teacher = 2;
+    Elder = 3;//староста
+    Director = 4;
+    Moderator = 5;
+}
+
+message UserR{
+    string id = 1;
+    optional string name = 2;
+    optional string email = 3;
+    UserLevel level = 4;
+    string locale = 5;
+    optional FileR avatar = 6;
+}
+message UpdateUserI{
+    Auth auth = 1;
+    optional string name = 2;
+    optional string email = 3;
+    optional string avatar = 4;
+    optional string locale = 5;
+    UserLevel level = 6;
+    optional string phone = 7;
+}
+message AddUserI{
+    Auth auth = 1;
+    optional string name = 2;
+    optional string email = 3;
+    optional string avatar = 4;
+    optional string locale = 5;
+    UserLevel level = 6;
+    optional string phone = 7;
+}
+message LoginPasswordI{
+    string email = 1;
+    string password = 2;
+    string locale = 3;
+}
+message AuthR{
+    string token = 1; //Token для авторизации{подставлять в поле token}
+    string refresh = 2; //Refresh Token
+    int64 expiresIn = 3; //дата оканчания действия токена
+    int64 refreshExpiresIn = 4; //дата окончания действия Refresh Token
+}
+
+message AuthByEmailI{
+    string email = 1;
+    string password = 2;
+}
+message UserListR{
+    repeated UserR items = 1;
+    int64 total = 2;
+}
+service UserService{
+    rpc Add(AddUserI) returns(UserR){}
+    rpc Update(UpdateUserI)returns(UserR){}
+    rpc Delete(IdI)returns(StatusR){}
+    rpc List(SearchI)returns(UserListR){}
+    rpc Id(IdI)returns(UserR){}
+    rpc Me(Auth)returns(UserR){}
+    rpc AuthByEMail(AuthByEmailI)returns(Auth){}
+}

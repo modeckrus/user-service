@@ -1,0 +1,29 @@
+syntax = "proto3";
+package api;
+import "common.proto";
+enum FileType{
+    file = 0;
+    image = 1;
+}
+message UploadFileI{
+    Auth auth = 1;
+    string name = 2;
+    bytes file = 3;
+    FileType type = 4;
+}
+message FileR{
+    string id = 1;
+    string uid = 2;
+    string name = 3;
+    FileType type = 4;
+}
+
+message DownloadR{
+    bytes file = 1;
+}
+
+service FileService{
+    rpc Upload(stream UploadFileI)returns(FileR){}
+    rpc Id(IdI)returns(FileR){}
+    rpc Download(IdI)returns(stream DownloadR){}
+}

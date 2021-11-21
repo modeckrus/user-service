@@ -1,0 +1,26 @@
+targets:
+  $default:
+    sources:
+      - lib/**
+      - graphql/**
+      - sdl.graphql
+    builders:
+      artemis:
+        options:
+          schema_mapping:
+            - schema: sdl.graphql
+              queries_glob: graphql/user_add.graphql
+              output: lib/graphql/user_add.dart
+            - schema: sdl.graphql
+              queries_glob: graphql/user_update.graphql
+              output: lib/graphql/user_update.dart
+            - schema: sdl.graphql
+              queries_glob: graphql/user_delete.graphql
+              output: lib/graphql/user_delete.dart
+            - schema: sdl.graphql
+              queries_glob: graphql/user_list.graphql
+              output: lib/graphql/user_list.dart
+          scalar_mapping:
+            - custom_parser_import: 'package:graphbrainz_example/coercers.dart'
+              graphql_type: Date
+              dart_type: DateTime

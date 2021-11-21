@@ -1,0 +1,4350 @@
+"""
+
+"""
+directive @cacheControl(maxAge: Int!) on QUERY
+
+"""
+
+"""
+directive @hasInverse(field: String!) on FIELD_DEFINITION
+
+"""
+
+"""
+directive @search(by: [DgraphIndex!]) on FIELD_DEFINITION
+
+"""
+
+"""
+directive @dgraph(
+  type: String
+  pred: String
+) on OBJECT | INTERFACE | FIELD_DEFINITION
+
+"""
+
+"""
+directive @auth(
+  password: AuthRule
+  query: AuthRule
+  add: AuthRule
+  update: AuthRule
+  delete: AuthRule
+) on OBJECT | INTERFACE
+
+"""
+
+"""
+directive @remoteResponse(name: String) on FIELD_DEFINITION
+
+"""
+
+"""
+directive @lambda on FIELD_DEFINITION
+
+"""
+
+"""
+directive @generate(
+  query: GenerateQueryParams
+  mutation: GenerateMutationParams
+  subscription: Boolean
+) on OBJECT | INTERFACE
+
+"""
+
+"""
+directive @id on FIELD_DEFINITION
+
+"""
+
+"""
+directive @secret(field: String!, pred: String) on OBJECT | INTERFACE
+
+"""
+
+"""
+directive @remote on OBJECT | INTERFACE | UNION | INPUT_OBJECT | ENUM
+
+"""
+
+"""
+directive @cascade(fields: [String]) on FIELD
+
+"""
+
+"""
+directive @lambdaOnMutate(
+  add: Boolean
+  update: Boolean
+  delete: Boolean
+) on OBJECT | INTERFACE
+
+"""
+
+"""
+directive @withSubscription on OBJECT | INTERFACE | FIELD_DEFINITION
+
+"""
+
+"""
+directive @custom(http: CustomHTTP, dql: String) on FIELD_DEFINITION
+
+"""
+
+"""
+enum UserOrderable {
+  """
+
+  """
+  name
+
+  """
+
+  """
+  email
+
+  """
+
+  """
+  locale
+}
+
+"""
+
+"""
+input HomeWorkPatch {
+  """
+
+  """
+  lesson: LessonRef
+
+  """
+
+  """
+  text: TrsRef
+
+  """
+
+  """
+  links: [String!]
+
+  """
+
+  """
+  files: [FileRef!]
+}
+
+"""
+
+"""
+type PointList {
+  """
+
+  """
+  points: [Point!]!
+}
+
+"""
+
+"""
+input StringRegExpFilter {
+  """
+
+  """
+  regexp: String
+}
+
+"""
+
+"""
+type DeleteSchoolObjectPayload {
+  """
+
+  """
+  schoolObject(
+    filter: SchoolObjectFilter
+    first: Int
+    offset: Int
+  ): [SchoolObject]
+
+  """
+
+  """
+  msg: String
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+enum HomeWorkHasFilter {
+  """
+
+  """
+  lesson
+
+  """
+
+  """
+  text
+
+  """
+
+  """
+  links
+
+  """
+
+  """
+  files
+}
+
+"""
+
+"""
+enum LessonLocationOrderable {
+  """
+
+  """
+  class_room
+
+  """
+
+  """
+  lat
+
+  """
+
+  """
+  lon
+}
+
+"""
+
+"""
+type Tr {
+  """
+
+  """
+  l: String!
+
+  """
+
+  """
+  s: String!
+}
+
+"""
+
+"""
+type Polygon {
+  """
+
+  """
+  coordinates: [PointList!]!
+}
+
+"""
+
+"""
+type UserAggregateResult {
+  """
+
+  """
+  count: Int
+
+  """
+
+  """
+  nameMin: String
+
+  """
+
+  """
+  nameMax: String
+
+  """
+
+  """
+  emailMin: String
+
+  """
+
+  """
+  emailMax: String
+
+  """
+
+  """
+  localeMin: String
+
+  """
+
+  """
+  localeMax: String
+}
+
+"""
+
+"""
+input LessonFilter {
+  """
+
+  """
+  id: [ID!]
+
+  """
+
+  """
+  has: [LessonHasFilter]
+
+  """
+
+  """
+  and: [LessonFilter]
+
+  """
+
+  """
+  or: [LessonFilter]
+
+  """
+
+  """
+  not: LessonFilter
+}
+
+"""
+
+"""
+input UserRef {
+  """
+
+  """
+  id: ID
+
+  """
+
+  """
+  name: String
+
+  """
+
+  """
+  email: String
+
+  """
+
+  """
+  level: UserLevel
+
+  """
+
+  """
+  locale: String
+
+  """
+
+  """
+  avatar: FileRef
+
+  """
+
+  """
+  files: [FileRef!]
+
+  """
+
+  """
+  classes: [ClassRef!]
+}
+
+"""
+
+"""
+input PointGeoFilter {
+  """
+
+  """
+  near: NearFilter
+
+  """
+
+  """
+  within: WithinFilter
+}
+
+"""
+
+"""
+type AddHomeWorkPayload {
+  """
+
+  """
+  homeWork(filter: HomeWorkFilter, first: Int, offset: Int): [HomeWork]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+type UpdateFilePayload {
+  """
+
+  """
+  file(filter: FileFilter, order: FileOrder, first: Int, offset: Int): [File]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+input TrOrder {
+  """
+
+  """
+  asc: TrOrderable
+
+  """
+
+  """
+  desc: TrOrderable
+
+  """
+
+  """
+  then: TrOrder
+}
+
+"""
+
+"""
+input AuthRule {
+  """
+
+  """
+  and: [AuthRule]
+
+  """
+
+  """
+  or: [AuthRule]
+
+  """
+
+  """
+  not: AuthRule
+
+  """
+
+  """
+  rule: String
+}
+
+"""
+
+"""
+input StringExactFilter {
+  """
+
+  """
+  eq: String
+
+  """
+
+  """
+  in: [String]
+
+  """
+
+  """
+  le: String
+
+  """
+
+  """
+  lt: String
+
+  """
+
+  """
+  ge: String
+
+  """
+
+  """
+  gt: String
+
+  """
+
+  """
+  between: StringRange
+}
+
+"""
+
+"""
+type AddSchoolPayload {
+  """
+
+  """
+  school(
+    filter: SchoolFilter
+    order: SchoolOrder
+    first: Int
+    offset: Int
+  ): [School]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+input AddLessonLocationInput {
+  """
+
+  """
+  text: TrsRef!
+
+  """
+
+  """
+  class_room: String
+
+  """
+
+  """
+  lat: Float
+
+  """
+
+  """
+  lon: Float
+}
+
+"""
+
+"""
+input AddSchoolInput {
+  """
+
+  """
+  name: String!
+
+  """
+
+  """
+  locale: String!
+
+  """
+
+  """
+  description: String!
+
+  """
+
+  """
+  type: SchoolType!
+
+  """
+
+  """
+  banner: FileRef
+
+  """
+
+  """
+  avatar: FileRef
+
+  """
+
+  """
+  classes: [ClassRef!]
+}
+
+"""
+
+"""
+type UpdateSchoolPayload {
+  """
+
+  """
+  school(
+    filter: SchoolFilter
+    order: SchoolOrder
+    first: Int
+    offset: Int
+  ): [School]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+input HomeWorkFilter {
+  """
+
+  """
+  id: [ID!]
+
+  """
+
+  """
+  has: [HomeWorkHasFilter]
+
+  """
+
+  """
+  and: [HomeWorkFilter]
+
+  """
+
+  """
+  or: [HomeWorkFilter]
+
+  """
+
+  """
+  not: HomeWorkFilter
+}
+
+"""
+
+"""
+type Lesson {
+  """
+
+  """
+  id: ID!
+
+  """
+
+  """
+  class(filter: ClassFilter): Class!
+
+  """
+
+  """
+  object(filter: SchoolObjectFilter): SchoolObject!
+
+  """
+
+  """
+  note(filter: TrsFilter): Trs!
+
+  """
+
+  """
+  start: DateTime!
+
+  """
+
+  """
+  end: DateTime!
+
+  """
+
+  """
+  homework(filter: HomeWorkFilter, first: Int, offset: Int): [HomeWork!]
+
+  """
+
+  """
+  location(filter: LessonLocationFilter): LessonLocation!
+
+  """
+
+  """
+  homeworkAggregate(filter: HomeWorkFilter): HomeWorkAggregateResult
+}
+
+"""
+
+"""
+input PolygonRef {
+  """
+
+  """
+  coordinates: [PointListRef!]!
+}
+
+"""
+
+"""
+type DeleteLessonLocationPayload {
+  """
+
+  """
+  lessonLocation(
+    filter: LessonLocationFilter
+    order: LessonLocationOrder
+    first: Int
+    offset: Int
+  ): [LessonLocation]
+
+  """
+
+  """
+  msg: String
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+type TrAggregateResult {
+  """
+
+  """
+  count: Int
+
+  """
+
+  """
+  lMin: String
+
+  """
+
+  """
+  lMax: String
+
+  """
+
+  """
+  sMin: String
+
+  """
+
+  """
+  sMax: String
+}
+
+"""
+
+"""
+input TrRef {
+  """
+
+  """
+  l: String
+
+  """
+
+  """
+  s: String
+}
+
+"""
+
+"""
+type SchoolObject {
+  """
+
+  """
+  id: ID!
+
+  """
+
+  """
+  user(filter: UserFilter): User!
+
+  """
+
+  """
+  teacher(filter: UserFilter): User!
+
+  """
+
+  """
+  name(filter: TrsFilter): Trs!
+
+  """
+
+  """
+  description(filter: TrsFilter): Trs!
+
+  """
+
+  """
+  class(filter: ClassFilter): Class!
+}
+
+"""
+
+"""
+type AddFilePayload {
+  """
+
+  """
+  file(filter: FileFilter, order: FileOrder, first: Int, offset: Int): [File]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+enum FileHasFilter {
+  """
+
+  """
+  user
+
+  """
+
+  """
+  name
+
+  """
+
+  """
+  type
+}
+
+"""
+
+"""
+input AddClassInput {
+  """
+
+  """
+  teacher: UserRef!
+
+  """
+
+  """
+  school: SchoolRef!
+
+  """
+
+  """
+  name: TrsRef!
+
+  """
+
+  """
+  image: FileRef
+
+  """
+
+  """
+  students: [UserRef]
+
+  """
+
+  """
+  objects: [SchoolObjectRef!]
+}
+
+"""
+
+"""
+input LessonOrder {
+  """
+
+  """
+  asc: LessonOrderable
+
+  """
+
+  """
+  desc: LessonOrderable
+
+  """
+
+  """
+  then: LessonOrder
+}
+
+"""
+
+"""
+input AddHomeWorkInput {
+  """
+
+  """
+  lesson: LessonRef!
+
+  """
+
+  """
+  text: TrsRef
+
+  """
+
+  """
+  links: [String!]!
+
+  """
+
+  """
+  files: [FileRef!]
+}
+
+"""
+
+"""
+input SchoolFilter {
+  """
+
+  """
+  id: [ID!]
+
+  """
+
+  """
+  name: StringTermFilter
+
+  """
+
+  """
+  has: [SchoolHasFilter]
+
+  """
+
+  """
+  and: [SchoolFilter]
+
+  """
+
+  """
+  or: [SchoolFilter]
+
+  """
+
+  """
+  not: SchoolFilter
+}
+
+"""
+
+"""
+input UpdateTrInput {
+  """
+
+  """
+  filter: TrFilter!
+
+  """
+
+  """
+  set: TrPatch
+
+  """
+
+  """
+  remove: TrPatch
+}
+
+"""
+The DateTime scalar type represents date and time as a string in RFC3339 format.
+For example: "1985-04-12T23:20:50.52Z" represents 20 minutes and 50.52 seconds after the 23rd hour of April 12th, 1985 in UTC.
+"""
+scalar DateTime
+
+"""
+
+"""
+input DateTimeRange {
+  """
+
+  """
+  min: DateTime!
+
+  """
+
+  """
+  max: DateTime!
+}
+
+"""
+
+"""
+input CustomHTTP {
+  """
+
+  """
+  url: String!
+
+  """
+
+  """
+  method: HTTPMethod!
+
+  """
+
+  """
+  body: String
+
+  """
+
+  """
+  graphql: String
+
+  """
+
+  """
+  mode: Mode
+
+  """
+
+  """
+  forwardHeaders: [String!]
+
+  """
+
+  """
+  secretHeaders: [String!]
+
+  """
+
+  """
+  introspectionHeaders: [String!]
+
+  """
+
+  """
+  skipIntrospection: Boolean
+}
+
+"""
+
+"""
+enum ClassHasFilter {
+  """
+
+  """
+  teacher
+
+  """
+
+  """
+  school
+
+  """
+
+  """
+  name
+
+  """
+
+  """
+  image
+
+  """
+
+  """
+  students
+
+  """
+
+  """
+  objects
+}
+
+"""
+
+"""
+enum LessonHasFilter {
+  """
+
+  """
+  class
+
+  """
+
+  """
+  object
+
+  """
+
+  """
+  note
+
+  """
+
+  """
+  start
+
+  """
+
+  """
+  end
+
+  """
+
+  """
+  homework
+
+  """
+
+  """
+  location
+}
+
+"""
+
+"""
+type MultiPolygon {
+  """
+
+  """
+  polygons: [Polygon!]!
+}
+
+"""
+
+"""
+type UpdateTrPayload {
+  """
+
+  """
+  tr(filter: TrFilter, order: TrOrder, first: Int, offset: Int): [Tr]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+input LessonLocationPatch {
+  """
+
+  """
+  text: TrsRef
+
+  """
+
+  """
+  class_room: String
+
+  """
+
+  """
+  lat: Float
+
+  """
+
+  """
+  lon: Float
+}
+
+"""
+
+"""
+input SchoolPatch {
+  """
+
+  """
+  name: String
+
+  """
+
+  """
+  locale: String
+
+  """
+
+  """
+  description: String
+
+  """
+
+  """
+  type: SchoolType
+
+  """
+
+  """
+  banner: FileRef
+
+  """
+
+  """
+  avatar: FileRef
+
+  """
+
+  """
+  classes: [ClassRef!]
+}
+
+"""
+
+"""
+input TrFilter {
+  """
+
+  """
+  s: StringTermFilter
+
+  """
+
+  """
+  has: [TrHasFilter]
+
+  """
+
+  """
+  and: [TrFilter]
+
+  """
+
+  """
+  or: [TrFilter]
+
+  """
+
+  """
+  not: TrFilter
+}
+
+"""
+
+"""
+input UpdateClassInput {
+  """
+
+  """
+  filter: ClassFilter!
+
+  """
+
+  """
+  set: ClassPatch
+
+  """
+
+  """
+  remove: ClassPatch
+}
+
+"""
+
+"""
+type HomeWorkAggregateResult {
+  """
+
+  """
+  count: Int
+}
+
+"""
+
+"""
+enum TrsHasFilter {
+  """
+
+  """
+  trs
+}
+
+"""
+
+"""
+input FileFilter {
+  """
+
+  """
+  id: [ID!]
+
+  """
+
+  """
+  has: [FileHasFilter]
+
+  """
+
+  """
+  and: [FileFilter]
+
+  """
+
+  """
+  or: [FileFilter]
+
+  """
+
+  """
+  not: FileFilter
+}
+
+"""
+
+"""
+input FileRef {
+  """
+
+  """
+  id: ID
+
+  """
+
+  """
+  user: UserRef
+
+  """
+
+  """
+  name: String
+
+  """
+
+  """
+  type: FileType
+}
+
+"""
+
+"""
+type User {
+  """
+
+  """
+  id: ID!
+
+  """
+
+  """
+  name: String
+
+  """
+
+  """
+  email: String
+
+  """
+
+  """
+  level: UserLevel!
+
+  """
+
+  """
+  locale: String!
+
+  """
+
+  """
+  avatar(filter: FileFilter): File
+
+  """
+
+  """
+  files(filter: FileFilter, order: FileOrder, first: Int, offset: Int): [File!]
+
+  """
+
+  """
+  classes(filter: ClassFilter, first: Int, offset: Int): [Class!]
+
+  """
+
+  """
+  filesAggregate(filter: FileFilter): FileAggregateResult
+
+  """
+
+  """
+  classesAggregate(filter: ClassFilter): ClassAggregateResult
+}
+
+"""
+
+"""
+input StringRange {
+  """
+
+  """
+  min: String!
+
+  """
+
+  """
+  max: String!
+}
+
+"""
+
+"""
+enum HTTPMethod {
+  """
+
+  """
+  GET
+
+  """
+
+  """
+  POST
+
+  """
+
+  """
+  PUT
+
+  """
+
+  """
+  PATCH
+
+  """
+
+  """
+  DELETE
+}
+
+"""
+
+"""
+type LessonLocationAggregateResult {
+  """
+
+  """
+  count: Int
+
+  """
+
+  """
+  class_roomMin: String
+
+  """
+
+  """
+  class_roomMax: String
+
+  """
+
+  """
+  latMin: Float
+
+  """
+
+  """
+  latMax: Float
+
+  """
+
+  """
+  latSum: Float
+
+  """
+
+  """
+  latAvg: Float
+
+  """
+
+  """
+  lonMin: Float
+
+  """
+
+  """
+  lonMax: Float
+
+  """
+
+  """
+  lonSum: Float
+
+  """
+
+  """
+  lonAvg: Float
+}
+
+"""
+
+"""
+enum SchoolOrderable {
+  """
+
+  """
+  name
+
+  """
+
+  """
+  locale
+
+  """
+
+  """
+  description
+}
+
+"""
+
+"""
+type AddSchoolObjectPayload {
+  """
+
+  """
+  schoolObject(
+    filter: SchoolObjectFilter
+    first: Int
+    offset: Int
+  ): [SchoolObject]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+type AddTrPayload {
+  """
+
+  """
+  tr(filter: TrFilter, order: TrOrder, first: Int, offset: Int): [Tr]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+type DeleteTrPayload {
+  """
+
+  """
+  tr(filter: TrFilter, order: TrOrder, first: Int, offset: Int): [Tr]
+
+  """
+
+  """
+  msg: String
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+type File {
+  """
+
+  """
+  id: ID!
+
+  """
+
+  """
+  user(filter: UserFilter): User!
+
+  """
+
+  """
+  name: String!
+
+  """
+
+  """
+  type: FileType!
+}
+
+"""
+
+"""
+enum SchoolType {
+  """
+
+  """
+  school
+
+  """
+
+  """
+  userservice
+
+  """
+
+  """
+  college
+
+  """
+
+  """
+  course
+
+  """
+
+  """
+  other
+}
+
+"""
+
+"""
+enum Mode {
+  """
+
+  """
+  BATCH
+
+  """
+
+  """
+  SINGLE
+}
+
+"""
+
+"""
+input FloatFilter {
+  """
+
+  """
+  eq: Float
+
+  """
+
+  """
+  in: [Float]
+
+  """
+
+  """
+  le: Float
+
+  """
+
+  """
+  lt: Float
+
+  """
+
+  """
+  ge: Float
+
+  """
+
+  """
+  gt: Float
+
+  """
+
+  """
+  between: FloatRange
+}
+
+"""
+
+"""
+input DateTimeFilter {
+  """
+
+  """
+  eq: DateTime
+
+  """
+
+  """
+  in: [DateTime]
+
+  """
+
+  """
+  le: DateTime
+
+  """
+
+  """
+  lt: DateTime
+
+  """
+
+  """
+  ge: DateTime
+
+  """
+
+  """
+  gt: DateTime
+
+  """
+
+  """
+  between: DateTimeRange
+}
+
+"""
+
+"""
+input HomeWorkRef {
+  """
+
+  """
+  id: ID
+
+  """
+
+  """
+  lesson: LessonRef
+
+  """
+
+  """
+  text: TrsRef
+
+  """
+
+  """
+  links: [String!]
+
+  """
+
+  """
+  files: [FileRef!]
+}
+
+"""
+
+"""
+input UserFilter {
+  """
+
+  """
+  id: [ID!]
+
+  """
+
+  """
+  name: StringTermFilter
+
+  """
+
+  """
+  email: StringExactFilter
+
+  """
+
+  """
+  has: [UserHasFilter]
+
+  """
+
+  """
+  and: [UserFilter]
+
+  """
+
+  """
+  or: [UserFilter]
+
+  """
+
+  """
+  not: UserFilter
+}
+
+"""
+
+"""
+input StringTermFilter {
+  """
+
+  """
+  allofterms: String
+
+  """
+
+  """
+  anyofterms: String
+}
+
+"""
+
+"""
+type AddLessonPayload {
+  """
+
+  """
+  lesson(
+    filter: LessonFilter
+    order: LessonOrder
+    first: Int
+    offset: Int
+  ): [Lesson]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+input LessonLocationOrder {
+  """
+
+  """
+  asc: LessonLocationOrderable
+
+  """
+
+  """
+  desc: LessonLocationOrderable
+
+  """
+
+  """
+  then: LessonLocationOrder
+}
+
+"""
+
+"""
+type UpdateSchoolObjectPayload {
+  """
+
+  """
+  schoolObject(
+    filter: SchoolObjectFilter
+    first: Int
+    offset: Int
+  ): [SchoolObject]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+input AddTrsInput {
+  """
+
+  """
+  trs: [TrRef!]!
+}
+
+"""
+
+"""
+type LessonLocation {
+  """
+
+  """
+  id: ID!
+
+  """
+
+  """
+  text(filter: TrsFilter): Trs!
+
+  """
+
+  """
+  class_room: String
+
+  """
+
+  """
+  lat: Float
+
+  """
+
+  """
+  lon: Float
+}
+
+"""
+
+"""
+type FileAggregateResult {
+  """
+
+  """
+  count: Int
+
+  """
+
+  """
+  nameMin: String
+
+  """
+
+  """
+  nameMax: String
+}
+
+"""
+
+"""
+input UpdateUserInput {
+  """
+
+  """
+  filter: UserFilter!
+
+  """
+
+  """
+  set: UserPatch
+
+  """
+
+  """
+  remove: UserPatch
+}
+
+"""
+
+"""
+input LessonLocationFilter {
+  """
+
+  """
+  id: [ID!]
+
+  """
+
+  """
+  has: [LessonLocationHasFilter]
+
+  """
+
+  """
+  and: [LessonLocationFilter]
+
+  """
+
+  """
+  or: [LessonLocationFilter]
+
+  """
+
+  """
+  not: LessonLocationFilter
+}
+
+"""
+
+"""
+input UpdateFileInput {
+  """
+
+  """
+  filter: FileFilter!
+
+  """
+
+  """
+  set: FilePatch
+
+  """
+
+  """
+  remove: FilePatch
+}
+
+"""
+
+"""
+input PointListRef {
+  """
+
+  """
+  points: [PointRef!]!
+}
+
+"""
+
+"""
+input IntersectsFilter {
+  """
+
+  """
+  polygon: PolygonRef
+
+  """
+
+  """
+  multiPolygon: MultiPolygonRef
+}
+
+"""
+
+"""
+input Int64Filter {
+  """
+
+  """
+  eq: Int64
+
+  """
+
+  """
+  in: [Int64]
+
+  """
+
+  """
+  le: Int64
+
+  """
+
+  """
+  lt: Int64
+
+  """
+
+  """
+  ge: Int64
+
+  """
+
+  """
+  gt: Int64
+
+  """
+
+  """
+  between: Int64Range
+}
+
+"""
+
+"""
+type DeleteUserPayload {
+  """
+
+  """
+  user(filter: UserFilter, order: UserOrder, first: Int, offset: Int): [User]
+
+  """
+
+  """
+  msg: String
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+input ClassRef {
+  """
+
+  """
+  id: ID
+
+  """
+
+  """
+  teacher: UserRef
+
+  """
+
+  """
+  school: SchoolRef
+
+  """
+
+  """
+  name: TrsRef
+
+  """
+
+  """
+  image: FileRef
+
+  """
+
+  """
+  students: [UserRef]
+
+  """
+
+  """
+  objects: [SchoolObjectRef!]
+}
+
+"""
+
+"""
+input SchoolRef {
+  """
+
+  """
+  id: ID
+
+  """
+
+  """
+  name: String
+
+  """
+
+  """
+  locale: String
+
+  """
+
+  """
+  description: String
+
+  """
+
+  """
+  type: SchoolType
+
+  """
+
+  """
+  banner: FileRef
+
+  """
+
+  """
+  avatar: FileRef
+
+  """
+
+  """
+  classes: [ClassRef!]
+}
+
+"""
+
+"""
+input UserOrder {
+  """
+
+  """
+  asc: UserOrderable
+
+  """
+
+  """
+  desc: UserOrderable
+
+  """
+
+  """
+  then: UserOrder
+}
+
+"""
+
+"""
+input IntFilter {
+  """
+
+  """
+  eq: Int
+
+  """
+
+  """
+  in: [Int]
+
+  """
+
+  """
+  le: Int
+
+  """
+
+  """
+  lt: Int
+
+  """
+
+  """
+  ge: Int
+
+  """
+
+  """
+  gt: Int
+
+  """
+
+  """
+  between: IntRange
+}
+
+"""
+
+"""
+type DeleteClassPayload {
+  """
+
+  """
+  class(filter: ClassFilter, first: Int, offset: Int): [Class]
+
+  """
+
+  """
+  msg: String
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+type DeleteFilePayload {
+  """
+
+  """
+  file(filter: FileFilter, order: FileOrder, first: Int, offset: Int): [File]
+
+  """
+
+  """
+  msg: String
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+enum SchoolHasFilter {
+  """
+
+  """
+  name
+
+  """
+
+  """
+  locale
+
+  """
+
+  """
+  description
+
+  """
+
+  """
+  type
+
+  """
+
+  """
+  banner
+
+  """
+
+  """
+  avatar
+
+  """
+
+  """
+  classes
+}
+
+"""
+
+"""
+input AddLessonInput {
+  """
+
+  """
+  class: ClassRef!
+
+  """
+
+  """
+  object: SchoolObjectRef!
+
+  """
+
+  """
+  note: TrsRef!
+
+  """
+
+  """
+  start: DateTime!
+
+  """
+
+  """
+  end: DateTime!
+
+  """
+
+  """
+  homework: [HomeWorkRef!]
+
+  """
+
+  """
+  location: LessonLocationRef!
+}
+
+"""
+
+"""
+input NearFilter {
+  """
+
+  """
+  distance: Float!
+
+  """
+
+  """
+  coordinate: PointRef!
+}
+
+"""
+
+"""
+input GenerateQueryParams {
+  """
+
+  """
+  get: Boolean
+
+  """
+
+  """
+  query: Boolean
+
+  """
+
+  """
+  password: Boolean
+
+  """
+
+  """
+  aggregate: Boolean
+}
+
+"""
+
+"""
+input StringHashFilter {
+  """
+
+  """
+  eq: String
+
+  """
+
+  """
+  in: [String]
+}
+
+"""
+
+"""
+type DeleteSchoolPayload {
+  """
+
+  """
+  school(
+    filter: SchoolFilter
+    order: SchoolOrder
+    first: Int
+    offset: Int
+  ): [School]
+
+  """
+
+  """
+  msg: String
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+input AddFileInput {
+  """
+
+  """
+  user: UserRef!
+
+  """
+
+  """
+  name: String!
+
+  """
+
+  """
+  type: FileType!
+}
+
+"""
+
+"""
+input FloatRange {
+  """
+
+  """
+  min: Float!
+
+  """
+
+  """
+  max: Float!
+}
+
+"""
+
+"""
+input SchoolOrder {
+  """
+
+  """
+  asc: SchoolOrderable
+
+  """
+
+  """
+  desc: SchoolOrderable
+
+  """
+
+  """
+  then: SchoolOrder
+}
+
+"""
+
+"""
+input GenerateMutationParams {
+  """
+
+  """
+  add: Boolean
+
+  """
+
+  """
+  update: Boolean
+
+  """
+
+  """
+  delete: Boolean
+}
+
+"""
+
+"""
+input TrPatch {
+  """
+
+  """
+  l: String
+
+  """
+
+  """
+  s: String
+}
+
+"""
+
+"""
+input TrsFilter {
+  """
+
+  """
+  has: [TrsHasFilter]
+
+  """
+
+  """
+  and: [TrsFilter]
+
+  """
+
+  """
+  or: [TrsFilter]
+
+  """
+
+  """
+  not: TrsFilter
+}
+
+"""
+
+"""
+input UpdateHomeWorkInput {
+  """
+
+  """
+  filter: HomeWorkFilter!
+
+  """
+
+  """
+  set: HomeWorkPatch
+
+  """
+
+  """
+  remove: HomeWorkPatch
+}
+
+"""
+
+"""
+type Mutation {
+  """
+
+  """
+  addUser(input: [AddUserInput!]!): AddUserPayload
+
+  """
+
+  """
+  updateUser(input: UpdateUserInput!): UpdateUserPayload
+
+  """
+
+  """
+  deleteUser(filter: UserFilter!): DeleteUserPayload
+
+  """
+
+  """
+  addFile(input: [AddFileInput!]!): AddFilePayload
+
+  """
+
+  """
+  updateFile(input: UpdateFileInput!): UpdateFilePayload
+
+  """
+
+  """
+  deleteFile(filter: FileFilter!): DeleteFilePayload
+
+  """
+
+  """
+  addSchool(input: [AddSchoolInput!]!): AddSchoolPayload
+
+  """
+
+  """
+  updateSchool(input: UpdateSchoolInput!): UpdateSchoolPayload
+
+  """
+
+  """
+  deleteSchool(filter: SchoolFilter!): DeleteSchoolPayload
+
+  """
+
+  """
+  addTr(input: [AddTrInput!]!): AddTrPayload
+
+  """
+
+  """
+  updateTr(input: UpdateTrInput!): UpdateTrPayload
+
+  """
+
+  """
+  deleteTr(filter: TrFilter!): DeleteTrPayload
+
+  """
+
+  """
+  addTrs(input: [AddTrsInput!]!): AddTrsPayload
+
+  """
+
+  """
+  updateTrs(input: UpdateTrsInput!): UpdateTrsPayload
+
+  """
+
+  """
+  deleteTrs(filter: TrsFilter!): DeleteTrsPayload
+
+  """
+
+  """
+  addHomeWork(input: [AddHomeWorkInput!]!): AddHomeWorkPayload
+
+  """
+
+  """
+  updateHomeWork(input: UpdateHomeWorkInput!): UpdateHomeWorkPayload
+
+  """
+
+  """
+  deleteHomeWork(filter: HomeWorkFilter!): DeleteHomeWorkPayload
+
+  """
+
+  """
+  addClass(input: [AddClassInput!]!): AddClassPayload
+
+  """
+
+  """
+  updateClass(input: UpdateClassInput!): UpdateClassPayload
+
+  """
+
+  """
+  deleteClass(filter: ClassFilter!): DeleteClassPayload
+
+  """
+
+  """
+  addSchoolObject(input: [AddSchoolObjectInput!]!): AddSchoolObjectPayload
+
+  """
+
+  """
+  updateSchoolObject(input: UpdateSchoolObjectInput!): UpdateSchoolObjectPayload
+
+  """
+
+  """
+  deleteSchoolObject(filter: SchoolObjectFilter!): DeleteSchoolObjectPayload
+
+  """
+
+  """
+  addLessonLocation(input: [AddLessonLocationInput!]!): AddLessonLocationPayload
+
+  """
+
+  """
+  updateLessonLocation(
+    input: UpdateLessonLocationInput!
+  ): UpdateLessonLocationPayload
+
+  """
+
+  """
+  deleteLessonLocation(
+    filter: LessonLocationFilter!
+  ): DeleteLessonLocationPayload
+
+  """
+
+  """
+  addLesson(input: [AddLessonInput!]!): AddLessonPayload
+
+  """
+
+  """
+  updateLesson(input: UpdateLessonInput!): UpdateLessonPayload
+
+  """
+
+  """
+  deleteLesson(filter: LessonFilter!): DeleteLessonPayload
+}
+
+"""
+
+"""
+input AddUserInput {
+  """
+
+  """
+  name: String
+
+  """
+
+  """
+  email: String
+
+  """
+
+  """
+  level: UserLevel!
+
+  """
+
+  """
+  locale: String!
+
+  """
+
+  """
+  avatar: FileRef
+
+  """
+
+  """
+  files: [FileRef!]
+
+  """
+
+  """
+  classes: [ClassRef!]
+}
+
+"""
+
+"""
+enum FileType {
+  """
+
+  """
+  file
+
+  """
+
+  """
+  image
+}
+
+"""
+
+"""
+type AddClassPayload {
+  """
+
+  """
+  class(filter: ClassFilter, first: Int, offset: Int): [Class]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+enum UserHasFilter {
+  """
+
+  """
+  name
+
+  """
+
+  """
+  email
+
+  """
+
+  """
+  level
+
+  """
+
+  """
+  locale
+
+  """
+
+  """
+  avatar
+
+  """
+
+  """
+  files
+
+  """
+
+  """
+  classes
+}
+
+"""
+
+"""
+input AddTrInput {
+  """
+
+  """
+  l: String!
+
+  """
+
+  """
+  s: String!
+}
+
+"""
+
+"""
+input FileOrder {
+  """
+
+  """
+  asc: FileOrderable
+
+  """
+
+  """
+  desc: FileOrderable
+
+  """
+
+  """
+  then: FileOrder
+}
+
+"""
+
+"""
+input SchoolObjectPatch {
+  """
+
+  """
+  user: UserRef
+
+  """
+
+  """
+  teacher: UserRef
+
+  """
+
+  """
+  name: TrsRef
+
+  """
+
+  """
+  description: TrsRef
+
+  """
+
+  """
+  class: ClassRef
+}
+
+"""
+
+"""
+type Trs {
+  """
+
+  """
+  trs(filter: TrFilter, order: TrOrder, first: Int, offset: Int): [Tr!]!
+
+  """
+
+  """
+  trsAggregate(filter: TrFilter): TrAggregateResult
+}
+
+"""
+
+"""
+input MultiPolygonRef {
+  """
+
+  """
+  polygons: [PolygonRef!]!
+}
+
+"""
+
+"""
+type DeleteTrsPayload {
+  """
+
+  """
+  trs(filter: TrsFilter, first: Int, offset: Int): [Trs]
+
+  """
+
+  """
+  msg: String
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+enum SchoolObjectHasFilter {
+  """
+
+  """
+  user
+
+  """
+
+  """
+  teacher
+
+  """
+
+  """
+  name
+
+  """
+
+  """
+  description
+
+  """
+
+  """
+  class
+}
+
+"""
+
+"""
+input Int64Range {
+  """
+
+  """
+  min: Int64!
+
+  """
+
+  """
+  max: Int64!
+}
+
+"""
+
+"""
+input TrsPatch {
+  """
+
+  """
+  trs: [TrRef!]
+}
+
+"""
+
+"""
+input LessonLocationRef {
+  """
+
+  """
+  id: ID
+
+  """
+
+  """
+  text: TrsRef
+
+  """
+
+  """
+  class_room: String
+
+  """
+
+  """
+  lat: Float
+
+  """
+
+  """
+  lon: Float
+}
+
+"""
+
+"""
+type HomeWork {
+  """
+
+  """
+  id: ID!
+
+  """
+
+  """
+  lesson(filter: LessonFilter): Lesson!
+
+  """
+
+  """
+  text(filter: TrsFilter): Trs
+
+  """
+
+  """
+  links: [String!]!
+
+  """
+
+  """
+  files(filter: FileFilter, order: FileOrder, first: Int, offset: Int): [File!]
+
+  """
+
+  """
+  filesAggregate(filter: FileFilter): FileAggregateResult
+}
+
+"""
+
+"""
+type Class {
+  """
+
+  """
+  id: ID!
+
+  """
+
+  """
+  teacher(filter: UserFilter): User!
+
+  """
+
+  """
+  school(filter: SchoolFilter): School!
+
+  """
+
+  """
+  name(filter: TrsFilter): Trs!
+
+  """
+
+  """
+  image(filter: FileFilter): File
+
+  """
+
+  """
+  students(
+    filter: UserFilter
+    order: UserOrder
+    first: Int
+    offset: Int
+  ): [User]
+
+  """
+
+  """
+  objects(filter: SchoolObjectFilter, first: Int, offset: Int): [SchoolObject!]
+
+  """
+
+  """
+  studentsAggregate(filter: UserFilter): UserAggregateResult
+
+  """
+
+  """
+  objectsAggregate(filter: SchoolObjectFilter): SchoolObjectAggregateResult
+}
+
+"""
+
+"""
+enum LessonOrderable {
+  """
+
+  """
+  start
+
+  """
+
+  """
+  end
+}
+
+"""
+
+"""
+enum TrOrderable {
+  """
+
+  """
+  l
+
+  """
+
+  """
+  s
+}
+
+"""
+
+"""
+input FilePatch {
+  """
+
+  """
+  user: UserRef
+
+  """
+
+  """
+  name: String
+
+  """
+
+  """
+  type: FileType
+}
+
+"""
+
+"""
+input PolygonGeoFilter {
+  """
+
+  """
+  near: NearFilter
+
+  """
+
+  """
+  within: WithinFilter
+
+  """
+
+  """
+  contains: ContainsFilter
+
+  """
+
+  """
+  intersects: IntersectsFilter
+}
+
+"""
+
+"""
+type UpdateLessonPayload {
+  """
+
+  """
+  lesson(
+    filter: LessonFilter
+    order: LessonOrder
+    first: Int
+    offset: Int
+  ): [Lesson]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+input ClassPatch {
+  """
+
+  """
+  teacher: UserRef
+
+  """
+
+  """
+  school: SchoolRef
+
+  """
+
+  """
+  name: TrsRef
+
+  """
+
+  """
+  image: FileRef
+
+  """
+
+  """
+  students: [UserRef]
+
+  """
+
+  """
+  objects: [SchoolObjectRef!]
+}
+
+"""
+
+"""
+input SchoolObjectFilter {
+  """
+
+  """
+  id: [ID!]
+
+  """
+
+  """
+  has: [SchoolObjectHasFilter]
+
+  """
+
+  """
+  and: [SchoolObjectFilter]
+
+  """
+
+  """
+  or: [SchoolObjectFilter]
+
+  """
+
+  """
+  not: SchoolObjectFilter
+}
+
+"""
+
+"""
+input UpdateLessonInput {
+  """
+
+  """
+  filter: LessonFilter!
+
+  """
+
+  """
+  set: LessonPatch
+
+  """
+
+  """
+  remove: LessonPatch
+}
+
+"""
+
+"""
+input UpdateSchoolInput {
+  """
+
+  """
+  filter: SchoolFilter!
+
+  """
+
+  """
+  set: SchoolPatch
+
+  """
+
+  """
+  remove: SchoolPatch
+}
+
+"""
+The Int64 scalar type represents a signed 64‐bit numeric non‐fractional value.
+Int64 can represent values in range [-(2^63),(2^63 - 1)].
+"""
+scalar Int64
+
+"""
+
+"""
+enum DgraphIndex {
+  """
+
+  """
+  int
+
+  """
+
+  """
+  int64
+
+  """
+
+  """
+  float
+
+  """
+
+  """
+  bool
+
+  """
+
+  """
+  hash
+
+  """
+
+  """
+  exact
+
+  """
+
+  """
+  term
+
+  """
+
+  """
+  fulltext
+
+  """
+
+  """
+  trigram
+
+  """
+
+  """
+  regexp
+
+  """
+
+  """
+  year
+
+  """
+
+  """
+  month
+
+  """
+
+  """
+  day
+
+  """
+
+  """
+  hour
+
+  """
+
+  """
+  geo
+}
+
+"""
+
+"""
+input PointRef {
+  """
+
+  """
+  longitude: Float!
+
+  """
+
+  """
+  latitude: Float!
+}
+
+"""
+
+"""
+type DeleteLessonPayload {
+  """
+
+  """
+  lesson(
+    filter: LessonFilter
+    order: LessonOrder
+    first: Int
+    offset: Int
+  ): [Lesson]
+
+  """
+
+  """
+  msg: String
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+type UpdateUserPayload {
+  """
+
+  """
+  user(filter: UserFilter, order: UserOrder, first: Int, offset: Int): [User]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+enum FileOrderable {
+  """
+
+  """
+  name
+}
+
+"""
+
+"""
+enum TrHasFilter {
+  """
+
+  """
+  l
+
+  """
+
+  """
+  s
+}
+
+"""
+
+"""
+type LessonAggregateResult {
+  """
+
+  """
+  count: Int
+
+  """
+
+  """
+  startMin: DateTime
+
+  """
+
+  """
+  startMax: DateTime
+
+  """
+
+  """
+  endMin: DateTime
+
+  """
+
+  """
+  endMax: DateTime
+}
+
+"""
+
+"""
+input LessonPatch {
+  """
+
+  """
+  class: ClassRef
+
+  """
+
+  """
+  object: SchoolObjectRef
+
+  """
+
+  """
+  note: TrsRef
+
+  """
+
+  """
+  start: DateTime
+
+  """
+
+  """
+  end: DateTime
+
+  """
+
+  """
+  homework: [HomeWorkRef!]
+
+  """
+
+  """
+  location: LessonLocationRef
+}
+
+"""
+
+"""
+input TrsRef {
+  """
+
+  """
+  trs: [TrRef!]
+}
+
+"""
+
+"""
+input ContainsFilter {
+  """
+
+  """
+  point: PointRef
+
+  """
+
+  """
+  polygon: PolygonRef
+}
+
+"""
+
+"""
+type AddLessonLocationPayload {
+  """
+
+  """
+  lessonLocation(
+    filter: LessonLocationFilter
+    order: LessonLocationOrder
+    first: Int
+    offset: Int
+  ): [LessonLocation]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+type ClassAggregateResult {
+  """
+
+  """
+  count: Int
+}
+
+"""
+
+"""
+type SchoolObjectAggregateResult {
+  """
+
+  """
+  count: Int
+}
+
+"""
+
+"""
+input LessonRef {
+  """
+
+  """
+  id: ID
+
+  """
+
+  """
+  class: ClassRef
+
+  """
+
+  """
+  object: SchoolObjectRef
+
+  """
+
+  """
+  note: TrsRef
+
+  """
+
+  """
+  start: DateTime
+
+  """
+
+  """
+  end: DateTime
+
+  """
+
+  """
+  homework: [HomeWorkRef!]
+
+  """
+
+  """
+  location: LessonLocationRef
+}
+
+"""
+
+"""
+input SchoolObjectRef {
+  """
+
+  """
+  id: ID
+
+  """
+
+  """
+  user: UserRef
+
+  """
+
+  """
+  teacher: UserRef
+
+  """
+
+  """
+  name: TrsRef
+
+  """
+
+  """
+  description: TrsRef
+
+  """
+
+  """
+  class: ClassRef
+}
+
+"""
+
+"""
+type School {
+  """
+
+  """
+  id: ID!
+
+  """
+
+  """
+  name: String!
+
+  """
+
+  """
+  locale: String!
+
+  """
+
+  """
+  description: String!
+
+  """
+
+  """
+  type: SchoolType!
+
+  """
+
+  """
+  banner(filter: FileFilter): File
+
+  """
+
+  """
+  avatar(filter: FileFilter): File
+
+  """
+
+  """
+  classes(filter: ClassFilter, first: Int, offset: Int): [Class!]
+
+  """
+
+  """
+  classesAggregate(filter: ClassFilter): ClassAggregateResult
+}
+
+"""
+
+"""
+type Point {
+  """
+
+  """
+  longitude: Float!
+
+  """
+
+  """
+  latitude: Float!
+}
+
+"""
+
+"""
+input WithinFilter {
+  """
+
+  """
+  polygon: PolygonRef!
+}
+
+"""
+
+"""
+type AddTrsPayload {
+  """
+
+  """
+  trs(filter: TrsFilter, first: Int, offset: Int): [Trs]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+type DeleteHomeWorkPayload {
+  """
+
+  """
+  homeWork(filter: HomeWorkFilter, first: Int, offset: Int): [HomeWork]
+
+  """
+
+  """
+  msg: String
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+input IntRange {
+  """
+
+  """
+  min: Int!
+
+  """
+
+  """
+  max: Int!
+}
+
+"""
+
+"""
+type TrsAggregateResult {
+  """
+
+  """
+  count: Int
+}
+
+"""
+
+"""
+input AddSchoolObjectInput {
+  """
+
+  """
+  user: UserRef!
+
+  """
+
+  """
+  teacher: UserRef!
+
+  """
+
+  """
+  name: TrsRef!
+
+  """
+
+  """
+  description: TrsRef!
+
+  """
+
+  """
+  class: ClassRef!
+}
+
+"""
+
+"""
+input UpdateLessonLocationInput {
+  """
+
+  """
+  filter: LessonLocationFilter!
+
+  """
+
+  """
+  set: LessonLocationPatch
+
+  """
+
+  """
+  remove: LessonLocationPatch
+}
+
+"""
+
+"""
+input UpdateSchoolObjectInput {
+  """
+
+  """
+  filter: SchoolObjectFilter!
+
+  """
+
+  """
+  set: SchoolObjectPatch
+
+  """
+
+  """
+  remove: SchoolObjectPatch
+}
+
+"""
+
+"""
+type Query {
+  """
+
+  """
+  getUser(id: ID!): User
+
+  """
+
+  """
+  queryUser(
+    filter: UserFilter
+    order: UserOrder
+    first: Int
+    offset: Int
+  ): [User]
+
+  """
+
+  """
+  aggregateUser(filter: UserFilter): UserAggregateResult
+
+  """
+
+  """
+  getFile(id: ID!): File
+
+  """
+
+  """
+  queryFile(
+    filter: FileFilter
+    order: FileOrder
+    first: Int
+    offset: Int
+  ): [File]
+
+  """
+
+  """
+  aggregateFile(filter: FileFilter): FileAggregateResult
+
+  """
+
+  """
+  getSchool(id: ID!): School
+
+  """
+
+  """
+  querySchool(
+    filter: SchoolFilter
+    order: SchoolOrder
+    first: Int
+    offset: Int
+  ): [School]
+
+  """
+
+  """
+  aggregateSchool(filter: SchoolFilter): SchoolAggregateResult
+
+  """
+
+  """
+  queryTr(filter: TrFilter, order: TrOrder, first: Int, offset: Int): [Tr]
+
+  """
+
+  """
+  aggregateTr(filter: TrFilter): TrAggregateResult
+
+  """
+
+  """
+  queryTrs(filter: TrsFilter, first: Int, offset: Int): [Trs]
+
+  """
+
+  """
+  aggregateTrs(filter: TrsFilter): TrsAggregateResult
+
+  """
+
+  """
+  getHomeWork(id: ID!): HomeWork
+
+  """
+
+  """
+  queryHomeWork(filter: HomeWorkFilter, first: Int, offset: Int): [HomeWork]
+
+  """
+
+  """
+  aggregateHomeWork(filter: HomeWorkFilter): HomeWorkAggregateResult
+
+  """
+
+  """
+  getClass(id: ID!): Class
+
+  """
+
+  """
+  queryClass(filter: ClassFilter, first: Int, offset: Int): [Class]
+
+  """
+
+  """
+  aggregateClass(filter: ClassFilter): ClassAggregateResult
+
+  """
+
+  """
+  getSchoolObject(id: ID!): SchoolObject
+
+  """
+
+  """
+  querySchoolObject(
+    filter: SchoolObjectFilter
+    first: Int
+    offset: Int
+  ): [SchoolObject]
+
+  """
+
+  """
+  aggregateSchoolObject(filter: SchoolObjectFilter): SchoolObjectAggregateResult
+
+  """
+
+  """
+  getLessonLocation(id: ID!): LessonLocation
+
+  """
+
+  """
+  queryLessonLocation(
+    filter: LessonLocationFilter
+    order: LessonLocationOrder
+    first: Int
+    offset: Int
+  ): [LessonLocation]
+
+  """
+
+  """
+  aggregateLessonLocation(
+    filter: LessonLocationFilter
+  ): LessonLocationAggregateResult
+
+  """
+
+  """
+  getLesson(id: ID!): Lesson
+
+  """
+
+  """
+  queryLesson(
+    filter: LessonFilter
+    order: LessonOrder
+    first: Int
+    offset: Int
+  ): [Lesson]
+
+  """
+
+  """
+  aggregateLesson(filter: LessonFilter): LessonAggregateResult
+}
+
+"""
+
+"""
+type AddUserPayload {
+  """
+
+  """
+  user(filter: UserFilter, order: UserOrder, first: Int, offset: Int): [User]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+type UpdateHomeWorkPayload {
+  """
+
+  """
+  homeWork(filter: HomeWorkFilter, first: Int, offset: Int): [HomeWork]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+type UpdateTrsPayload {
+  """
+
+  """
+  trs(filter: TrsFilter, first: Int, offset: Int): [Trs]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+input ClassFilter {
+  """
+
+  """
+  id: [ID!]
+
+  """
+
+  """
+  has: [ClassHasFilter]
+
+  """
+
+  """
+  and: [ClassFilter]
+
+  """
+
+  """
+  or: [ClassFilter]
+
+  """
+
+  """
+  not: ClassFilter
+}
+
+"""
+
+"""
+enum UserLevel {
+  """
+
+  """
+  Anon
+
+  """
+
+  """
+  Student
+
+  """
+
+  """
+  Teacher
+
+  """
+
+  """
+  Elder
+
+  """
+
+  """
+  Director
+
+  """
+
+  """
+  Moderator
+}
+
+"""
+
+"""
+type SchoolAggregateResult {
+  """
+
+  """
+  count: Int
+
+  """
+
+  """
+  nameMin: String
+
+  """
+
+  """
+  nameMax: String
+
+  """
+
+  """
+  localeMin: String
+
+  """
+
+  """
+  localeMax: String
+
+  """
+
+  """
+  descriptionMin: String
+
+  """
+
+  """
+  descriptionMax: String
+}
+
+"""
+
+"""
+type UpdateClassPayload {
+  """
+
+  """
+  class(filter: ClassFilter, first: Int, offset: Int): [Class]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+type UpdateLessonLocationPayload {
+  """
+
+  """
+  lessonLocation(
+    filter: LessonLocationFilter
+    order: LessonLocationOrder
+    first: Int
+    offset: Int
+  ): [LessonLocation]
+
+  """
+
+  """
+  numUids: Int
+}
+
+"""
+
+"""
+input UserPatch {
+  """
+
+  """
+  name: String
+
+  """
+
+  """
+  email: String
+
+  """
+
+  """
+  level: UserLevel
+
+  """
+
+  """
+  locale: String
+
+  """
+
+  """
+  avatar: FileRef
+
+  """
+
+  """
+  files: [FileRef!]
+
+  """
+
+  """
+  classes: [ClassRef!]
+}
+
+"""
+
+"""
+input StringFullTextFilter {
+  """
+
+  """
+  alloftext: String
+
+  """
+
+  """
+  anyoftext: String
+}
+
+"""
+
+"""
+enum LessonLocationHasFilter {
+  """
+
+  """
+  text
+
+  """
+
+  """
+  class_room
+
+  """
+
+  """
+  lat
+
+  """
+
+  """
+  lon
+}
+
+"""
+
+"""
+input UpdateTrsInput {
+  """
+
+  """
+  filter: TrsFilter!
+
+  """
+
+  """
+  set: TrsPatch
+
+  """
+
+  """
+  remove: TrsPatch
+}

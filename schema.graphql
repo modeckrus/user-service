@@ -1,0 +1,35 @@
+enum UserLevel{
+    Anon
+    Student
+    Teacher
+    Elder
+    Director
+    Moderator
+}
+type User{
+    id: ID!
+    name: String @search(by: [term])
+    email: String @search(by: [exact])
+    level: UserLevel!
+    locale: String!
+    avatar: File
+    files: [File!] @hasInverse(field: user)
+}
+
+enum FileType{
+    file
+    image
+}
+type File{
+    id: ID!
+    user: User!
+    name: String!
+    type: FileType!
+}
+type Tr{
+    l: String!
+    s: String! @search(by: [term])
+}
+type Trs{
+    trs: [Tr!]!
+}
